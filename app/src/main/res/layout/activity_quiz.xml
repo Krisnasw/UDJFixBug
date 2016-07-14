@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl"
+    tools:context=".QuizActivity">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/question"
+        android:id="@+id/quiz_question"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="75dp"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/imageSoal"
+        android:layout_below="@id/quiz_question"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
+        android:layout_height="150dp" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageSoal"
+        android:layout_alignLeft="@+id/quiz_question"
+        android:layout_alignStart="@+id/quiz_question"
+        android:layout_marginTop="40dp"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/radio0"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="@string/app_name"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"/>
+
+        <RadioButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/radio1"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="@string/app_name"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"/>
+
+        <RadioButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/radio2"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="@string/app_name"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="20dp"/>
+
+        <RadioButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/radio3"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="@string/app_name"
+            android:paddingLeft="20dp"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="500dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:padding="5dp"
+            android:id="@+id/previousquiz"
+            android:src="@drawable/previous"
+            android:background="@null"/>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:padding="5dp"
+            android:id="@+id/nextquiz"
+            android:src="@drawable/next"
+            android:background="@null" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/resultView"
+        android:text=""
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
