@@ -3,7 +3,6 @@ package intivestudio.web.id.udjseamolec;
 /**
  * Created by Krisnasw on 5/27/2016.
  */
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -43,7 +42,7 @@ public class  Mapel extends AppCompatActivity implements NavigationView.OnNaviga
     ArrayList<HashMap<String, String>> oslist = new ArrayList<HashMap<String, String>>();
 
     //URL to get JSON Array
-    private static String url = "http://192.168.1.66/droid/g.php/";
+    private static String url = "http://192.168.0.10/droid/g.php/";
 
     //JSON Node Names
     private static final String TAG_OS = "ngHasil";

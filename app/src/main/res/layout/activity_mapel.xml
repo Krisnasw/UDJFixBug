@@ -21,8 +21,6 @@
             app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
             app:theme="@style/Toolbar" />
 
-
-
     <ListView
         android:layout_below="@+id/tbar"
         android:id="@+id/list"

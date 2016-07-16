@@ -37,15 +37,14 @@ public class Score extends AppCompatActivity {
     CustomListAdapter adapter;
     ProgressDialog mProgressDialog;
     ArrayList<HashMap<String, String>> arraylist;
-
     public static String nama = "nama";
-
     public static String nilai = "nilai";
     static String hasil = "hasil";
     Toolbar toolbar;
     private SQLiteHandler db;
     private SessionManager session;
     private static final String TAG = "Score.java";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +113,7 @@ public class Score extends AppCompatActivity {
             System.out.println("Jeneng : "+name);
 
             // url where the data will be posted
-            String postReceiverUrl = "http://192.168.1.66/droid/score.php";
+            String postReceiverUrl = "http://192.168.0.10/droid/score.php";
             Log.v(TAG, "postURL: " + postReceiverUrl);
 
             // HttpClient
@@ -171,7 +170,7 @@ public class Score extends AppCompatActivity {
             arraylist = new ArrayList<HashMap<String, String>>();
             // Retrieve JSON Objects from the given URL address
             jsonobject = JSONFunctions
-                    .getJSONfromURL("http://192.168.1.66/droid/score.php");
+                    .getJSONfromURL("http://192.168.0.10/droid/score.php");
 
             try {
                 // Locate the array name in JSON

@@ -56,12 +56,16 @@ public class QuizActivity extends ActionBarActivity {
     private int currentQuizQuestion;
     private int quizCount;
     private int ScoreString = 0;
+    private int selected[] = null;
+    private int corAns[] = null;
+    private int checked = 0;
+    private int jwb = 0;
 
     private SessionManager session;
     private SQLiteFunction func;
     private SQLiteHandler db;
 
-    private static String url = "http://192.168.1.66/droid/images/";
+    private static String url = "http://192.168.0.10/droid/images/";
     private static final String TAG_DAFTAR = "quiz_questions";
     private static final String TAG_ID = "id";
     private static final String TAG_SOAL = "question";
@@ -118,6 +122,7 @@ public class QuizActivity extends ActionBarActivity {
                 int radioSelected = radioGroup.getCheckedRadioButtonId();
                 int userSelection = getSelectedAnswer(radioSelected);
                 int correctAnswerForQuestion = firstQuestion.getCorrectAnswer();
+                selected[currentQuizQuestion] = userSelection;
                 if(userSelection == correctAnswerForQuestion){
                     // correct answer
                     ScoreString += 1;
@@ -125,13 +130,20 @@ public class QuizActivity extends ActionBarActivity {
 
                     currentQuizQuestion++;
 
+                    //finish
                     if(currentQuizQuestion >= quizCount){
+                        for (int i =0; i < quizCount; i++)
+                        {
+                            if (corAns[i] == selected[i]){
+                                jwb++;
+                            }
+                        }
                         AlertDialog tampilKotakAlert;
                         tampilKotakAlert = new AlertDialog.Builder(QuizActivity.this)
                                 .create();
                         tampilKotakAlert.setTitle("Hasil Ujian");
                         tampilKotakAlert.setIcon(R.mipmap.ic_launcher);
-                        tampilKotakAlert.setMessage("Nilai : " + (ScoreString * 100 / quizCount));
+                        tampilKotakAlert.setMessage("Nilai : " + (jwb * 100 / quizCount));
 
                         tampilKotakAlert.setButton(AlertDialog.BUTTON_NEGATIVE, "Keluar",
                                 new DialogInterface.OnClickListener() {
@@ -150,7 +162,7 @@ public class QuizActivity extends ActionBarActivity {
                                         HashMap<String, String> user = db.getUserDetails();
 
                                         String name = user.get("name");
-                                        String Score = ScoreString +"";
+                                        String Score = jwb * 100 / quizCount +"";
 
                                         InputNilai(name, Score);
                                     }
@@ -162,7 +174,7 @@ public class QuizActivity extends ActionBarActivity {
                         return;
 
                     }
-
+                    //end finish
                     else{
 
                         firstQuestion = parsedObject.get(currentQuizQuestion);
@@ -251,14 +263,14 @@ public class QuizActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 currentQuizQuestion--;
-
+                Log.d("asshole",String.valueOf(selected[currentQuizQuestion]));
                 if(currentQuizQuestion < 0){
 
                     return;
 
                 }
 
-                uncheckedRadioButton();
+                //uncheckedRadioButton();
 
                 firstQuestion = parsedObject.get(currentQuizQuestion);
                 quizQuestion.setText(firstQuestion.getQuestion());
@@ -267,6 +279,19 @@ public class QuizActivity extends ActionBarActivity {
                 optionTwo.setText(firstQuestion.getPilb());
                 optionThree.setText(firstQuestion.getPilc());
                 optionFour.setText(firstQuestion.getPild());
+                radioGroup.check(-1);
+                if(selected[currentQuizQuestion] == 1){
+                    radioGroup.check(R.id.radio0);
+                }
+                if(selected[currentQuizQuestion] == 2){
+                    radioGroup.check(R.id.radio1);
+                }
+                if(selected[currentQuizQuestion] == 3){
+                    radioGroup.check(R.id.radio2);
+                }
+                if(selected[currentQuizQuestion] == 4){
+                    radioGroup.check(R.id.radio3);
+                }
 
             }
 
@@ -284,7 +309,7 @@ public class QuizActivity extends ActionBarActivity {
 
             HttpClient httpClient = new DefaultHttpClient(new BasicHttpParams());
 
-            HttpPost httpPost = new HttpPost("http://192.168.1.66/droid/quiz.php");
+            HttpPost httpPost = new HttpPost("http://192.168.0.10/droid/quiz.php");
 
             String jsonResult = "";
 
@@ -345,6 +370,13 @@ public class QuizActivity extends ActionBarActivity {
             }
 
             quizCount = parsedObject.size();
+            selected = new int[quizCount];
+            corAns = new int[quizCount];
+            for (int i = 0; i < quizCount; i++)
+            {
+                firstQuestion = parsedObject.get(i);
+                corAns[i] = firstQuestion.getCorrectAnswer();
+            }
             firstQuestion = parsedObject.get(0);
             quizQuestion.setText(firstQuestion.getQuestion());
             Picasso.with(QuizActivity.this).load(url+firstQuestion.getImage()).into(gambarSoal);
@@ -553,4 +585,10 @@ public class QuizActivity extends ActionBarActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(QuizActivity.this,Mapel.class);
+        startActivity(intent);
+        finish();
+    }
 }

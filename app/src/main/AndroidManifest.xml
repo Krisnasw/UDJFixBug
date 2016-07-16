@@ -25,10 +25,7 @@
         <activity android:name=".QuizActivity"/>
         <activity android:name=".Score"/>
         <activity android:name=".Mapel"/>
-        <activity android:name=".Mat"/>
         <activity android:name=".Navdraw"/>
-        <activity android:name=".QuestionActivity"/>
-        <activity android:name=".QuizFunActivity"/>
     </application>
 
 </manifest>
