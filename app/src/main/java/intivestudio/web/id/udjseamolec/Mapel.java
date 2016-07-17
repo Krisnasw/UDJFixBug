@@ -42,13 +42,13 @@ public class  Mapel extends AppCompatActivity implements NavigationView.OnNaviga
     ArrayList<HashMap<String, String>> oslist = new ArrayList<HashMap<String, String>>();
 
     //URL to get JSON Array
-    private static String url = "http://192.168.0.10/droid/g.php/";
+    private static String url = "http://192.168.1.66/droid/g.php/";
 
     //JSON Node Names
     private static final String TAG_OS = "ngHasil";
     private static final String TAG_VER = "napel";
     private static final String TAG_CREATE = "created";
-    private static final String TAG_PAKET = "nama_paket";
+    private static final String TAG_PAKET = "nama_quiz";
 
     JSONArray result = null;
     Toolbar toolbar;
