@@ -38,7 +38,6 @@ public class  Mapel extends AppCompatActivity implements NavigationView.OnNaviga
     TextView create;
     TextView paket;
 
-
     ArrayList<HashMap<String, String>> oslist = new ArrayList<HashMap<String, String>>();
 
     //URL to get JSON Array
@@ -71,7 +70,6 @@ public class  Mapel extends AppCompatActivity implements NavigationView.OnNaviga
 
         View header = navigationView.getHeaderView(0);
         TextView txt_jeneng = (TextView)header.findViewById(R.id.jeneng);
-
 
         list.setClickable(true);
 
@@ -113,10 +111,7 @@ public class  Mapel extends AppCompatActivity implements NavigationView.OnNaviga
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
         }
-
-
 
         @Override
         protected JSONObject doInBackground(String... args) {

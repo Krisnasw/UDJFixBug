@@ -26,6 +26,7 @@
         <activity android:name=".Score"/>
         <activity android:name=".Mapel"/>
         <activity android:name=".Navdraw"/>
+        <activity android:name=".Scoreing"/>
     </application>
 
 </manifest>

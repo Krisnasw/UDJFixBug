@@ -126,7 +126,7 @@ public class QuizActivity extends ActionBarActivity {
                 if(userSelection == correctAnswerForQuestion){
                     // correct answer
                     ScoreString += 1;
-                    Toast.makeText(QuizActivity.this, "Jawaban Anda Benar", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(QuizActivity.this, "Jawaban Anda Benar", Toast.LENGTH_LONG).show();
 
                     currentQuizQuestion++;
 
@@ -149,7 +149,7 @@ public class QuizActivity extends ActionBarActivity {
                                 new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent q = new Intent(QuizActivity.this, Profile.class);
+                                        Intent q = new Intent(QuizActivity.this, Mapel.class);
                                         finish();
                                         startActivity(q);
                                     }
@@ -195,7 +195,7 @@ public class QuizActivity extends ActionBarActivity {
                     // failed question
                     ScoreString += 0;
                     currentQuizQuestion++;
-                    Toast.makeText(QuizActivity.this, "You chose the wrong answer", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(QuizActivity.this, "You chose the wrong answer", Toast.LENGTH_LONG).show();
 
                     if(currentQuizQuestion >= quizCount){
                         AlertDialog tampilKotakAlert;
@@ -222,7 +222,7 @@ public class QuizActivity extends ActionBarActivity {
                                         HashMap<String, String> user = db.getUserDetails();
 
                                         String name = user.get("name");
-                                        String Score = ScoreString +"";
+                                        String Score = jwb * 100 / quizCount +"";
 
                                         InputNilai(name, Score);
                                     }
@@ -536,16 +536,16 @@ public class QuizActivity extends ActionBarActivity {
 
                         JSONObject user = jObj.getJSONObject("hasil");
                         String name = user.getString("nama");
-                        String nilai = user.getString("nilai");
+                        String Score = user.getString("nilai");
 
                         // Inserting row in users table
-                        func.addNilai(name, nilai);
+                        func.addNilai(name, Score);
 
                         // Launch main activity
-                        Intent intent = new Intent(QuizActivity.this,
-                                Profile.class);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent = new Intent(QuizActivity.this,
+//                                Mapel.class);
+//                        startActivity(intent);
+//                        finish();
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
@@ -555,7 +555,11 @@ public class QuizActivity extends ActionBarActivity {
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Success: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    Intent q = new Intent(QuizActivity.this, Mapel.class);
+                    startActivity(q);
+                    finish();
                 }
 
             }

@@ -124,8 +124,8 @@ public class Score extends AppCompatActivity {
 
             // add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("nama", name));
-            System.out.println(nama);
+            nameValuePairs.add(new BasicNameValuePair("namae", name));
+            System.out.println("Xianjeng :"+name);
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             // execute HTTP post request
@@ -145,6 +145,7 @@ public class Score extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     // DownloadJSON AsyncTask
@@ -172,10 +173,12 @@ public class Score extends AppCompatActivity {
             jsonobject = JSONFunctions
                     .getJSONfromURL("http://192.168.1.66/droid/score.php");
 
-            try {
-                // Locate the array name in JSON
-                jsonarray = jsonobject.getJSONArray("hasil");
-                 System.out.println("Hasil : "+!jsonobject.isNull(hasil));
+            if (jsonobject != null) {
+
+                try {
+                    // Locate the array name in JSON
+                    jsonarray = jsonobject.getJSONArray("hasil");
+                    System.out.println("Hasil : " + !jsonobject.isNull(hasil));
                     for (int i = 0; i < jsonarray.length(); i++) {
                         HashMap<String, String> map = new HashMap<String, String>();
                         jsonobject = jsonarray.getJSONObject(i);
@@ -184,10 +187,11 @@ public class Score extends AppCompatActivity {
                         map.put("nilai", jsonobject.getString("nilai"));
                         // Set the JSON Objects into the array
                         arraylist.add(map);
+                    }
+                } catch (JSONException e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
             }
             return null;
         }
