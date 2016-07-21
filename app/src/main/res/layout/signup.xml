@@ -16,8 +16,6 @@
         android:background="@drawable/bgrect"
         >
 
-
-
     </FrameLayout>
 
 
@@ -137,6 +135,18 @@
                 android:paddingBottom="16dp"
                 android:drawablePadding="16dp">
             </EditText>
+
+            <Spinner
+                android:dropDownWidth="fill_parent"
+                android:drawablePadding="16dp"
+                android:background="@drawable/rect1"
+                android:paddingLeft="20dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:id="@+id/spinner" />
 
         </LinearLayout>
         </ScrollView>

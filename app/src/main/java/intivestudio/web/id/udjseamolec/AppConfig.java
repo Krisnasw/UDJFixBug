@@ -15,5 +15,14 @@ public class AppConfig {
 
     // Server user Statistik
     public static String URL_NILAI = "http://192.168.1.66/droid/score.php";
+
+    //JSON URL
+    public static final String DATA_URL = "http://192.168.1.66/droid/kelas.php";
+
+    //Tags used in the JSON String
+    public static final String TAG_KELAS = "kelas";
+
+    //JSON array name
+    public static final String JSON_ARRAY = "result";
 }
 

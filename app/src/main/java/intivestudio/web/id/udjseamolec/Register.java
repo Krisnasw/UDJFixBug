@@ -7,22 +7,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompatActivity implements Spinner.OnItemSelectedListener {
     private static final String TAG = Register.class.getSimpleName();
     private TextView btnRegister;
     private TextView btnLinkToLogin;
@@ -33,6 +40,11 @@ public class Register extends AppCompatActivity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private Spinner spinner;
+    private ArrayList<String> students;
+
+    //JSON Array
+    private JSONArray result;
 
     Toolbar toolbar;
 
@@ -40,6 +52,18 @@ public class Register extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        //Initializing the ArrayList
+        students = new ArrayList<String>();
+
+        //Initializing Spinner
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        //Adding an Item Selected Listener to our Spinner
+        //As we have implemented the class Spinner.OnItemSelectedListener to this class iteself we are passing this to setOnItemSelectedListener
+        spinner.setOnItemSelectedListener(this);
+
+        getData();
 
         inputFullName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -77,10 +101,11 @@ public class Register extends AppCompatActivity {
                 String name = inputFullName.getText().toString().trim();
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
-                String kelas = inputKel.getText().toString().trim();
+                String sekolah = inputKel.getText().toString().trim();
+                String kelas = spinner.getSelectedItem().toString().trim();
 
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !kelas.isEmpty()) {
-                    registerUser(name, email, password, kelas);
+                    registerUser(name, email, password, kelas, sekolah);
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -107,7 +132,7 @@ public class Register extends AppCompatActivity {
      * email, password) to register url
      * */
     private void registerUser(final String name, final String email,
-                              final String password, final String kelas) {
+                              final String password, final String kelas, final String sekolah) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -134,10 +159,11 @@ public class Register extends AppCompatActivity {
                         String name = user.getString("name");
                         String email = user.getString("email");
                         String kelas = user.getString("kelas");
+                        String sekolah = user.getString("sekolah");
                         String created_at = user.getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, kelas, created_at);
+                        db.addUser(name, email, uid, kelas, created_at, sekolah);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
@@ -179,6 +205,7 @@ public class Register extends AppCompatActivity {
                 params.put("email", email);
                 params.put("password", password);
                 params.put("kelas", kelas);
+                params.put("sekolah", sekolah);
 
                 return params;
             }
@@ -197,5 +224,68 @@ public class Register extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    private void getData(){
+        //Creating a string request
+        StringRequest stringRequest = new StringRequest(AppConfig.DATA_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject j = null;
+                        try {
+                            //Parsing the fetched Json String to JSON Object
+                            j = new JSONObject(response);
+
+                            //Storing the Array of JSON String to our JSON Array
+                            result = j.getJSONArray(AppConfig.JSON_ARRAY);
+
+                            //Calling method getStudents to get the students from the JSON Array
+                            getKelas(result);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+
+        //Creating a request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+    private void getKelas(JSONArray j){
+        //Traversing through all the items in the json array
+        for(int i=0;i<j.length();i++){
+            try {
+                //Getting json object
+                JSONObject json = j.getJSONObject(i);
+
+                //Adding the name of the student to array list
+                students.add(json.getString(AppConfig.TAG_KELAS));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //Setting adapter to show the items in the spinner
+        spinner.setAdapter(new ArrayAdapter<String>(Register.this, android.R.layout.simple_spinner_dropdown_item, students));
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
